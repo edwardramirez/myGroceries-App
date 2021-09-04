@@ -1,11 +1,15 @@
 import React from 'react';
 import {Text, View} from 'react-native';
+import MainScreen from './screens/MainScreen';
 
 const App = () => {
   return (
-    <View>
-      <Text>This is a test</Text>
-    </View>
+    // <NavigationContainer>
+    //   <AuthStack.Navigator>
+    //     <AuthStack.screen name="Main Screen" component={MainScreen} />
+    //   </AuthStack.Navigator>
+    // </NavigationContainer>
+    <MainScreen />
   );
 };
 

@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import Modal from 'react-native-modal';
+import React from 'react';
+import {Text, View, StyleSheet} from 'react-native';
 import {
   responsiveHeight,
   responsiveWidth,
@@ -12,33 +11,17 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import GroceriesList from '../components/GroceriesList';
 
-const MainScreen = () => {
-  const [isModal, setModal] = useState(false);
-
+const PastListScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Groceries List</Text>
+        <Text style={styles.headerText}>Past Groceries List</Text>
       </View>
       <View style={styles.listContainer}>
         <GroceriesList />
       </View>
       <View style={styles.addButton}>
-        <TouchableOpacity
-          onPress={() => {
-            setModal(true);
-          }}>
-          <FontAwesome5 name={'plus-circle'} size={responsiveFontSize(8)} />
-
-          <Modal
-            animationIn="slideInUp"
-            isVisible={isModal}
-            onBackdropPress={() => setModal(false)}>
-            <View style={styles.modalContainer}>
-              <Text>Hello</Text>
-            </View>
-          </Modal>
-        </TouchableOpacity>
+        <FontAwesome5 name={'check-circle'} size={responsiveFontSize(4)} />
       </View>
     </View>
   );
@@ -68,9 +51,6 @@ const styles = StyleSheet.create({
   addButton: {
     alignItems: 'center',
   },
-  modalContainer: {
-    backgroundColor: 'white',
-  },
 });
 
-export default MainScreen;
+export default PastListScreen;

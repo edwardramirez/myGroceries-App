@@ -26,14 +26,15 @@ const MainScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#E9E9E9',
   },
   header: {
-    //backgroundColor: 'blue',
     marginTop: '10%',
     marginHorizontal: responsiveScreenWidth(4),
     padding: responsiveFontSize(1),
     borderWidth: 1,
     borderRadius: 20,
+    backgroundColor: 'white',
   },
   headerText: {
     fontSize: responsiveFontSize(5),
@@ -41,7 +42,6 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 1,
-    backgroundColor: 'red',
     marginTop: responsiveFontSize(2),
   },
 });

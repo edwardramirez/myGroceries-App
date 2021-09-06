@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  FlatList,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {
@@ -15,12 +16,25 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import uuid from 'react-native-uuid';
 
 import GroceriesList from '../components/GroceriesList';
 
 const MainScreen = () => {
   const [isModal, setModal] = useState(false);
   const [text, setText] = useState();
+  const [data, setData] = useState([]);
+
+  const renderItem = itemData => {
+    return <GroceriesList itemName={itemData.item.item} />;
+  };
+
+  const addItem = newText => {
+    const newArray = [...data, {id: uuid.v4(), item: newText}];
+    setData(newArray);
+    setText();
+    setModal(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -28,7 +42,18 @@ const MainScreen = () => {
         <Text style={styles.headerText}>Groceries List</Text>
       </View>
       <View style={styles.listContainer}>
-        <GroceriesList />
+        <FlatList
+          contentContainerStyle={styles.listContainer}
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => item.id?.toString()}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={
+            <View style={{alignItems: 'center'}}>
+              <Text>Add Items!</Text>
+            </View>
+          }
+        />
       </View>
       <View style={styles.addButton}>
         <TouchableOpacity
@@ -55,7 +80,10 @@ const MainScreen = () => {
                 <TouchableOpacity onPress={() => setModal(false)}>
                   <Text style={styles.buttonText}>Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    addItem(text);
+                  }}>
                   <Text style={styles.buttonText}>Ok</Text>
                 </TouchableOpacity>
               </View>
@@ -86,7 +114,6 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 1,
-    marginTop: responsiveFontSize(2),
   },
   addButton: {
     alignItems: 'center',
@@ -104,7 +131,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginTop: responsiveFontSize(2),
     borderWidth: 1,
-    borderRadius: 20,
+    borderRadius: 12,
   },
   inputStyle: {paddingHorizontal: responsiveFontSize(1)},
   buttonsContainer: {

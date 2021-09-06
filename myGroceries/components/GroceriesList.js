@@ -7,7 +7,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const GroceriesList = () => {
+const GroceriesList = props => {
   const [isChecked, setCheck] = useState(false);
 
   const checkBox =
@@ -27,7 +27,7 @@ const GroceriesList = () => {
         <FontAwesome5 name={'sticky-note'} size={responsiveFontSize(4)} />
       </View>
       <View style={styles.ItemContainer}>
-        <Text style={styles.ItemText}>something</Text>
+        <Text style={styles.ItemText}>{props.itemName}</Text>
       </View>
       <View style={styles.checkBoxContainer}>{checkBox}</View>
     </TouchableOpacity>
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     marginHorizontal: responsiveFontSize(1),
+    marginTop: responsiveFontSize(2),
   },
   noteContainer: {
     flex: 1,

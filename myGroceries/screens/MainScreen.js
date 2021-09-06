@@ -15,23 +15,47 @@ import {
 } from 'react-native-responsive-dimensions';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import uuid from 'react-native-uuid';
-
 import GroceriesList from '../components/GroceriesList';
 
 const MainScreen = ({navigation}) => {
   const [isModal, setModal] = useState(false);
   const [text, setText] = useState();
   const [data, setData] = useState([]);
+  const [isChecked, setChecked] = useState(true);
+
+  [
+    {id: 'a9de2a2b-d7a1-4296-9848-89e5e1405301', item: 'this'},
+    {id: 'e2410067-2842-42fa-852a-27e58134781c', item: 'is'},
+    {id: 'd7893bad-ae26-47c9-9190-bd9f4eb5c659', item: 'a'},
+    {id: '9a5d1a6c-bd23-4789-8e9a-3fbe474ad3c2', item: 'test'},
+    {id: '9b22c759-0087-41c4-97c4-46f246f0d3eb', item: 'please'},
+    {id: '36cf68a2-30c2-4a39-9423-c9e4a2f44748', item: 'help'},
+  ];
+
+  console.log(data);
 
   const renderItem = itemData => {
     return <GroceriesList itemName={itemData.item.item} />;
   };
 
   const addItem = newText => {
-    const newArray = [...data, {id: uuid.v4(), item: newText}];
-    setData(newArray);
-    setText();
-    setModal(false);
+    console.log(newText);
+    if (newText === undefined) {
+      setText();
+      setModal(false);
+    } else {
+      let results = [...data];
+      const textArray = newText.split(',');
+
+      for (let i = 0; i < textArray.length; i++) {
+        if (textArray !== '') {
+          results.push({id: uuid.v4(), item: textArray[i]});
+        }
+      }
+      setData(results);
+      setText();
+      setModal(false);
+    }
   };
 
   return (
@@ -76,9 +100,8 @@ const MainScreen = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.listContainer}>
+      <View style={{height: responsiveScreenHeight(72)}}>
         <FlatList
-          contentContainerStyle={styles.listContainer}
           data={data}
           renderItem={renderItem}
           keyExtractor={item => item.id?.toString()}
@@ -110,9 +133,7 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(4),
     fontWeight: 'bold',
   },
-  listContainer: {
-    flex: 1,
-  },
+
   modalContainer: {
     backgroundColor: 'white',
     borderRadius: 20,

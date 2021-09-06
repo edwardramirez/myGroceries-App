@@ -13,13 +13,14 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const Tab = createBottomTabNavigator();
+const isFocused = 'red';
+const isNotFocused = '#D3D3D3';
 
 const Tabs = () => {
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        //tabBarShowLabel: false,
         tabBarStyle: {
           ...styles.tabBarStyle,
         },
@@ -28,33 +29,54 @@ const Tabs = () => {
         name="Main"
         component={MainScreen}
         options={{
-          tabBarIcon: () => (
-            <FontAwesome5 name={'home'} size={responsiveFontSize(3)} />
+          tabBarIcon: ({focused}) => (
+            <FontAwesome5
+              name={'home'}
+              size={responsiveFontSize(3)}
+              style={{color: focused ? isFocused : isNotFocused}}
+            />
           ),
           tabBarLabelStyle: {
-            fontSize: responsiveFontSize(1.5),
+            ...styles.tabBarLabel,
           },
+          tabBarActiveTintColor: 'red',
+          tabBarInactiveTintColor: '#D3D3D3',
         }}
       />
       <Tab.Screen
         name="Past"
         component={PastScreen}
         options={{
-          tabBarIcon: () => (
+          tabBarIcon: ({focused}) => (
             <FontAwesome5
               name={'clipboard-list'}
               size={responsiveFontSize(3)}
+              style={{color: focused ? isFocused : isNotFocused}}
             />
           ),
+          tabBarLabelStyle: {
+            ...styles.tabBarLabel,
+          },
+          tabBarActiveTintColor: 'red',
+          tabBarInactiveTintColor: '#D3D3D3',
         }}
       />
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}
         options={{
-          tabBarIcon: () => (
-            <FontAwesome5 name={'user-cog'} size={responsiveFontSize(3)} />
+          tabBarIcon: ({focused}) => (
+            <FontAwesome5
+              name={'user-cog'}
+              size={responsiveFontSize(3)}
+              style={{color: focused ? isFocused : isNotFocused}}
+            />
           ),
+          tabBarLabelStyle: {
+            ...styles.tabBarLabel,
+          },
+          tabBarActiveTintColor: 'red',
+          tabBarInactiveTintColor: '#D3D3D3',
         }}
       />
     </Tab.Navigator>
@@ -75,6 +97,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.5,
     elevation: 5,
+    paddingVertical: responsiveFontSize(0.5),
+  },
+  tabBarLabel: {
+    fontSize: responsiveFontSize(1.5),
+    paddingBottom: responsiveFontSize(1),
   },
 });
 

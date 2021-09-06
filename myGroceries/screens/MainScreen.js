@@ -10,6 +10,7 @@ import {
 import Modal from 'react-native-modal';
 import {
   responsiveFontSize,
+  responsiveHeight,
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
@@ -32,8 +33,6 @@ const MainScreen = ({navigation}) => {
     {id: '36cf68a2-30c2-4a39-9423-c9e4a2f44748', item: 'help'},
   ];
 
-  console.log(data);
-
   const renderItem = itemData => {
     return <GroceriesList itemName={itemData.item.item} />;
   };
@@ -48,8 +47,10 @@ const MainScreen = ({navigation}) => {
       const textArray = newText.split(',');
 
       for (let i = 0; i < textArray.length; i++) {
+        let fixedText = textArray[i].trim().replace(/\W+/g, ' ');
+
         if (textArray !== '') {
-          results.push({id: uuid.v4(), item: textArray[i]});
+          results.push({id: uuid.v4(), item: fixedText});
         }
       }
       setData(results);
@@ -100,10 +101,11 @@ const MainScreen = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <View style={{height: responsiveScreenHeight(72)}}>
+      <View style={{}}>
         <FlatList
           data={data}
           renderItem={renderItem}
+          contentContainerStyle={{paddingBottom: responsiveScreenHeight(21)}}
           keyExtractor={item => item.id?.toString()}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={

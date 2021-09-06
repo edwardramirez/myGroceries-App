@@ -9,8 +9,6 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {
-  responsiveHeight,
-  responsiveWidth,
   responsiveFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -20,7 +18,7 @@ import uuid from 'react-native-uuid';
 
 import GroceriesList from '../components/GroceriesList';
 
-const MainScreen = () => {
+const MainScreen = ({navigation}) => {
   const [isModal, setModal] = useState(false);
   const [text, setText] = useState();
   const [data, setData] = useState([]);
@@ -39,28 +37,14 @@ const MainScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Groceries List</Text>
-      </View>
-      <View style={styles.listContainer}>
-        <FlatList
-          contentContainerStyle={styles.listContainer}
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={item => item.id?.toString()}
-          showsVerticalScrollIndicator={false}
-          ListEmptyComponent={
-            <View style={{alignItems: 'center'}}>
-              <Text>Add Items!</Text>
-            </View>
-          }
-        />
-      </View>
-      <View style={styles.addButton}>
+        <View>
+          <Text style={styles.headerText}>Groceries List</Text>
+        </View>
         <TouchableOpacity
           onPress={() => {
             setModal(true);
           }}>
-          <FontAwesome5 name={'plus-circle'} size={responsiveFontSize(8)} />
+          <FontAwesome5 name={'plus'} size={responsiveFontSize(4)} />
 
           <Modal isVisible={isModal} onBackdropPress={() => setModal(false)}>
             <View style={styles.modalContainer}>
@@ -91,6 +75,21 @@ const MainScreen = () => {
           </Modal>
         </TouchableOpacity>
       </View>
+
+      <View style={styles.listContainer}>
+        <FlatList
+          contentContainerStyle={styles.listContainer}
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => item.id?.toString()}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={
+            <View style={{alignItems: 'center'}}>
+              <Text>Add Items!</Text>
+            </View>
+          }
+        />
+      </View>
     </View>
   );
 };
@@ -101,22 +100,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#E9E9E9',
   },
   header: {
-    marginTop: '10%',
-    marginHorizontal: responsiveScreenWidth(4),
     padding: responsiveFontSize(1),
     borderWidth: 1,
-    borderRadius: 20,
     backgroundColor: 'white',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   headerText: {
-    fontSize: responsiveFontSize(5),
+    fontSize: responsiveFontSize(4),
     fontWeight: 'bold',
   },
   listContainer: {
     flex: 1,
-  },
-  addButton: {
-    alignItems: 'center',
   },
   modalContainer: {
     backgroundColor: 'white',

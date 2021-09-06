@@ -12,9 +12,13 @@ const GroceriesList = props => {
 
   const checkBox =
     isChecked === false ? (
-      <FontAwesome5 name={'circle'} size={responsiveFontSize(4)} />
-    ) : (
       <FontAwesome5 name={'check-circle'} size={responsiveFontSize(4)} />
+    ) : (
+      <FontAwesome5
+        name={'check-circle'}
+        size={responsiveFontSize(4)}
+        color={'#3fe53f'}
+      />
     );
 
   return (
@@ -51,6 +55,8 @@ const styles = StyleSheet.create({
   },
   ItemContainer: {
     flex: 8,
+    justifyContent: 'center',
+    paddingLeft: responsiveFontSize(3),
   },
   ItemText: {
     fontSize: responsiveFontSize(2.5),

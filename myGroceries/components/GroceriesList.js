@@ -6,6 +6,7 @@ import {
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Colors from '../resources/Colors';
 
 const GroceriesList = props => {
   const [isChecked, setCheck] = useState(false);
@@ -17,7 +18,7 @@ const GroceriesList = props => {
       <FontAwesome5
         name={'check-circle'}
         size={responsiveFontSize(4)}
-        color={'#3fe53f'}
+        color={Colors.checkGreen}
       />
     );
 

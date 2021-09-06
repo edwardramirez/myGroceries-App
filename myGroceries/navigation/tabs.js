@@ -12,9 +12,11 @@ import {
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
+import Colors from '../resources/Colors';
+
 const Tab = createBottomTabNavigator();
 const isFocused = 'red';
-const isNotFocused = '#D3D3D3';
+const isNotFocused = Colors.unselectedGrey;
 
 const Tabs = () => {
   return (
@@ -40,7 +42,7 @@ const Tabs = () => {
             ...styles.tabBarLabel,
           },
           tabBarActiveTintColor: 'red',
-          tabBarInactiveTintColor: '#D3D3D3',
+          tabBarInactiveTintColor: Colors.unselectedGrey,
         }}
       />
       <Tab.Screen
@@ -58,7 +60,7 @@ const Tabs = () => {
             ...styles.tabBarLabel,
           },
           tabBarActiveTintColor: 'red',
-          tabBarInactiveTintColor: '#D3D3D3',
+          tabBarInactiveTintColor: Colors.unselectedGrey,
         }}
       />
       <Tab.Screen
@@ -76,7 +78,7 @@ const Tabs = () => {
             ...styles.tabBarLabel,
           },
           tabBarActiveTintColor: 'red',
-          tabBarInactiveTintColor: '#D3D3D3',
+          tabBarInactiveTintColor: Colors.unselectedGrey,
         }}
       />
     </Tab.Navigator>

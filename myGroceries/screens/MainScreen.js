@@ -17,6 +17,7 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import uuid from 'react-native-uuid';
 import GroceriesList from '../components/GroceriesList';
+import Colors from '../resources/Colors';
 
 const MainScreen = ({navigation}) => {
   const [isModal, setModal] = useState(false);
@@ -122,7 +123,7 @@ const MainScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E9E9E9',
+    backgroundColor: Colors.backgroundGrey,
   },
   header: {
     padding: responsiveFontSize(1),

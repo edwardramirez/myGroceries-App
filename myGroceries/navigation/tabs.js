@@ -15,7 +15,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Colors from '../resources/Colors';
 
 const Tab = createBottomTabNavigator();
-const isFocused = 'red';
+const isFocused = Colors.babyBlue;
 const isNotFocused = Colors.unselectedGrey;
 
 const Tabs = () => {
@@ -41,7 +41,7 @@ const Tabs = () => {
           tabBarLabelStyle: {
             ...styles.tabBarLabel,
           },
-          tabBarActiveTintColor: 'red',
+          tabBarActiveTintColor: Colors.babyBlue,
           tabBarInactiveTintColor: Colors.unselectedGrey,
         }}
       />
@@ -59,7 +59,7 @@ const Tabs = () => {
           tabBarLabelStyle: {
             ...styles.tabBarLabel,
           },
-          tabBarActiveTintColor: 'red',
+          tabBarActiveTintColor: Colors.babyBlue,
           tabBarInactiveTintColor: Colors.unselectedGrey,
         }}
       />
@@ -77,7 +77,7 @@ const Tabs = () => {
           tabBarLabelStyle: {
             ...styles.tabBarLabel,
           },
-          tabBarActiveTintColor: 'red',
+          tabBarActiveTintColor: Colors.babyBlue,
           tabBarInactiveTintColor: Colors.unselectedGrey,
         }}
       />

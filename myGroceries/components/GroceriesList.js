@@ -4,12 +4,16 @@ import {
   responsiveHeight,
   responsiveWidth,
   responsiveFontSize,
+  responsiveScreenHeight,
 } from 'react-native-responsive-dimensions';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Colors from '../resources/Colors';
 
 const GroceriesList = props => {
   const [isChecked, setCheck] = useState(false);
+  const [idList, setIdList] = useState([]);
+
+  //console.log(idList);
 
   const checkBox =
     isChecked === false ? (
@@ -22,11 +26,23 @@ const GroceriesList = props => {
       />
     );
 
+  const something = ans => {
+    if (ans === true) {
+      setCheck(false);
+      //setIdList(...idList.filter(item => item !== props.itemName));
+    } else {
+      setCheck(true);
+      let newArr = [...idList, props.itemName];
+      setIdList(newArr);
+      //console.log(newArr);
+    }
+  };
+
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
-        isChecked === true ? setCheck(false) : setCheck(true);
+        something(isChecked);
       }}>
       <View style={styles.noteContainer}>
         <FontAwesome5 name={'sticky-note'} size={responsiveFontSize(4)} />
@@ -49,7 +65,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     marginHorizontal: responsiveFontSize(1),
-    marginTop: responsiveFontSize(2),
+    marginTop: responsiveScreenHeight(1),
+    marginBottom: responsiveScreenHeight(1),
   },
   noteContainer: {
     flex: 1,

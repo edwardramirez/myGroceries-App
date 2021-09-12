@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  FlatList,
+  SectionList,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {
@@ -20,44 +20,105 @@ import GroceriesList from '../components/GroceriesList';
 import Colors from '../resources/Colors';
 
 const MainScreen = ({navigation}) => {
+  const catagories = ['Kitchen', 'Home Goods', 'Other'];
   const [isModal, setModal] = useState(false);
   const [text, setText] = useState();
-  const [data, setData] = useState([]);
-  const [isChecked, setChecked] = useState(true);
+  const [data, setData] = useState([
+    {
+      id: '0',
+      category: 'Kitchen',
+      data: [
+        {
+          id: 'a9de2a2b-d7a1-4296-9848-89e5e1405301',
+          item: 'egg',
+        },
+        {
+          id: 'e2410067-2842-42fa-852a-27e58134781c',
+          item: 'ham',
+        },
+        {
+          id: 'd7893bad-ae26-47c9-9190-bd9f4eb5c659',
+          item: 'cheese',
+        },
+      ],
+    },
 
-  [
-    {id: 'a9de2a2b-d7a1-4296-9848-89e5e1405301', item: 'this'},
-    {id: 'e2410067-2842-42fa-852a-27e58134781c', item: 'is'},
-    {id: 'd7893bad-ae26-47c9-9190-bd9f4eb5c659', item: 'a'},
-    {id: '9a5d1a6c-bd23-4789-8e9a-3fbe474ad3c2', item: 'test'},
-    {id: '9b22c759-0087-41c4-97c4-46f246f0d3eb', item: 'please'},
-    {id: '36cf68a2-30c2-4a39-9423-c9e4a2f44748', item: 'help'},
-  ];
+    {
+      id: '1',
+      category: 'Home Goods',
+      data: [
+        {
+          id: '9a5d1a6c-bd23-4789-8e9a-3fbe474ad3c2',
+          item: 'broom',
+        },
+        {
+          id: '9b22c759-0087-41c4-97c4-46f246f0d3eb',
+          item: 'trash bags',
+        },
+        {
+          id: '36cf68a2-30c2-4a39-9423-c9e4a2f44748',
+          item: 'body wash',
+        },
+      ],
+    },
+    {
+      id: '2',
+      category: 'Other',
+      data: [],
+    },
+  ]);
 
+  const [categorySelction, setCategorySelction] = useState();
+
+  const [selected, setSelected] = useState('Kitchen');
+
+  //renders grocery items
   const renderItem = itemData => {
-    return <GroceriesList itemName={itemData.item.item} />;
+    return (
+      <GroceriesList itemName={itemData.item.item} itemId={itemData.item.id} />
+    );
   };
 
-  const addItem = newText => {
-    console.log(newText);
+  const addItem = (newText, category) => {
+    console.log(category);
     if (newText === undefined) {
       setText();
       setModal(false);
     } else {
-      let results = [...data];
+      let index = 0;
+
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].category == category) {
+          index = i;
+        }
+      }
+
+      let newData = [...data];
+
+      let newItem = [...data[index].data];
+
       const textArray = newText.split(',');
 
       for (let i = 0; i < textArray.length; i++) {
         let fixedText = textArray[i].trim().replace(/\W+/g, ' ');
 
         if (textArray !== '') {
-          results.push({id: uuid.v4(), item: fixedText});
+          newItem.push({id: uuid.v4(), item: fixedText});
+          newData[index].data = newItem;
         }
       }
-      setData(results);
+
+      setData(newData);
       setText();
       setModal(false);
+      setSelected('Kitchen');
     }
+  };
+
+  const cancelButtonPress = () => {
+    setModal(false);
+    setText();
+    setSelected('Kitchen');
   };
 
   return (
@@ -72,11 +133,39 @@ const MainScreen = ({navigation}) => {
           }}>
           <FontAwesome5 name={'plus'} size={responsiveFontSize(4)} />
 
-          <Modal isVisible={isModal} onBackdropPress={() => setModal(false)}>
+          <Modal isVisible={isModal} onBackdropPress={cancelButtonPress}>
             <View style={styles.modalContainer}>
               <View>
                 <Text style={styles.modalHeaderContainer}>Add Item:</Text>
               </View>
+              <View
+                style={{
+                  ...styles.categoryButtonContainer,
+                }}>
+                {catagories.map((item, index) => (
+                  <TouchableOpacity
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    style={{
+                      ...styles.categoryButton,
+                      backgroundColor:
+                        selected === item ? Colors.babyBlue : 'white',
+                    }}
+                    key={index}
+                    onPress={() => {
+                      setSelected(item);
+                    }}>
+                    <Text
+                      // eslint-disable-next-line react-native/no-inline-styles
+                      style={{
+                        ...styles.categoryText,
+                        color: selected === item ? 'white' : Colors.babyBlue,
+                      }}>
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
               <View style={styles.inputContainer}>
                 <TextInput
                   style={styles.inputStyle}
@@ -87,12 +176,12 @@ const MainScreen = ({navigation}) => {
                 />
               </View>
               <View style={styles.buttonsContainer}>
-                <TouchableOpacity onPress={() => setModal(false)}>
+                <TouchableOpacity onPress={cancelButtonPress}>
                   <Text style={styles.buttonText}>Cancel</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    addItem(text);
+                    addItem(text, selected);
                   }}>
                   <Text style={styles.buttonText}>Ok</Text>
                 </TouchableOpacity>
@@ -102,13 +191,23 @@ const MainScreen = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <View style={{}}>
-        <FlatList
-          data={data}
+      <View>
+        <SectionList
+          sections={data}
           renderItem={renderItem}
-          contentContainerStyle={{paddingBottom: responsiveScreenHeight(21)}}
-          keyExtractor={item => item.id?.toString()}
-          showsVerticalScrollIndicator={false}
+          renderSectionHeader={({section}) => (
+            <View>
+              {section.data.length > 0 ? (
+                <View style={styles.categoryHeaderContainer}>
+                  <Text style={styles.categoryHeaderText}>
+                    {section.category}
+                  </Text>
+                </View>
+              ) : null}
+            </View>
+          )}
+          keyExtractor={item => item.id}
+          contentContainerStyle={{paddingBottom: responsiveScreenHeight(20)}}
           ListEmptyComponent={
             <View style={{alignItems: 'center'}}>
               <Text>Add Items!</Text>
@@ -161,7 +260,45 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: responsiveFontSize(2),
     fontWeight: 'bold',
-    color: '#0E86D4',
+    color: Colors.babyBlue,
+  },
+  categoryHeaderContainer: {
+    backgroundColor: 'white',
+    //  marginTop: responsiveScreenHeight(2),
+    padding: responsiveFontSize(1),
+    marginTop: responsiveScreenHeight(1),
+    marginBottom: responsiveScreenHeight(1),
+  },
+  categoryHeaderText: {
+    fontSize: responsiveFontSize(1.8),
+    fontWeight: '800',
+  },
+  categorySelectionContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: responsiveFontSize(2),
+
+    padding: responsiveFontSize(0.5),
+  },
+  categoryButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingTop: responsiveFontSize(1),
+  },
+  categoryTouchableStyle: {
+    backgroundColor: Colors.babyBlue,
+    padding: responsiveFontSize(1),
+    borderRadius: 20,
+  },
+  categoryText: {color: 'white', fontWeight: 'bold'},
+  categoryButton: {
+    width: responsiveScreenWidth(25),
+    height: responsiveHeight(4),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: Colors.babyBlue,
   },
 });
 
